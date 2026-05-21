@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -32,19 +31,19 @@ export class ClientesController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Buscar cliente por ID' })
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id') id: string) {
     return this.clientesService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Atualizar cliente' })
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateClienteDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateClienteDto) {
     return this.clientesService.update(id, dto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Remover cliente' })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.clientesService.remove(id);
   }
 }

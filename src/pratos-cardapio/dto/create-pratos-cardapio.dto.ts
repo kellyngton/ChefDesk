@@ -1,6 +1,6 @@
 import { IsBoolean, IsOptional, IsString, MaxLength } from 'class-validator';
 
-export class CreatePratoCardapioDto {
+export class CreatePratosCardapioDto {
   @IsString()
   @MaxLength(100)
   nome!: string;

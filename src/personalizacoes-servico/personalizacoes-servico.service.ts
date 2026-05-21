@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { CreatePersonalizacoesServicoDto } from './dto/create-personalizacoes-servico.dto';
 import { UpdatePersonalizacoesServicoDto } from './dto/update-personalizacoes-servico.dto';
@@ -16,7 +17,10 @@ export class PersonalizacoesServicoService {
     return `This action returns a #${id} personalizacoesServico`;
   }
 
-  update(id: number, updatePersonalizacoesServicoDto: UpdatePersonalizacoesServicoDto) {
+  update(
+    id: number,
+    updatePersonalizacoesServicoDto: UpdatePersonalizacoesServicoDto,
+  ) {
     return `This action updates a #${id} personalizacoesServico`;
   }
 

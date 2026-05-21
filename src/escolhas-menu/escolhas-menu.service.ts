@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { CreateEscolhasMenuDto } from './dto/create-escolhas-menu.dto';
 import { UpdateEscolhasMenuDto } from './dto/update-escolhas-menu.dto';

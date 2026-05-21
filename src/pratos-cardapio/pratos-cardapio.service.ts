@@ -1,26 +1,121 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
 import { CreatePratosCardapioDto } from './dto/create-pratos-cardapio.dto';
 import { UpdatePratosCardapioDto } from './dto/update-pratos-cardapio.dto';
+import { FilterPratosCardapioDto } from './dto/filter-pratos-cardapio.dto';
+import {
+  PratoCardapio,
+  PratoCardapioDocument,
+} from './schemas/prato-cardapio.schema';
 
 @Injectable()
 export class PratosCardapioService {
-  create(createPratosCardapioDto: CreatePratosCardapioDto) {
-    return 'This action adds a new pratosCardapio';
+  constructor(
+    @InjectModel(PratoCardapio.name)
+    private readonly pratoCardapioModel: Model<PratoCardapioDocument>,
+  ) {}
+
+  async create(createPratosCardapioDto: CreatePratosCardapioDto) {
+    const prato = await this.pratoCardapioModel.create({
+      nome: createPratosCardapioDto.nome,
+      categoria: createPratosCardapioDto.categoria,
+      descricao: createPratosCardapioDto.descricao,
+      status: createPratosCardapioDto.status ?? true,
+    });
+
+    return this.toResponse(prato);
   }
 
-  findAll() {
-    return `This action returns all pratosCardapio`;
+  async findAll(filters: FilterPratosCardapioDto) {
+    const query: Record<string, unknown> = {
+      status: true,
+    };
+
+    if (filters.categoria) {
+      query.categoria = new RegExp(
+        `^${this.escapeRegex(filters.categoria)}$`,
+        'i',
+      );
+    }
+
+    const pratos = await this.pratoCardapioModel
+      .find(query)
+      .sort({
+        especialidadeEstrelada: -1,
+        nome: 1,
+      })
+      .exec();
+
+    return {
+      data: pratos.map((prato) => this.toResponse(prato)),
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pratosCardapio`;
+  async findOne(id: string) {
+    this.validateObjectId(id);
+
+    const prato = await this.pratoCardapioModel.findById(id).exec();
+
+    if (!prato) {
+      throw new NotFoundException('Prato não encontrado');
+    }
+
+    return this.toResponse(prato);
   }
 
-  update(id: number, updatePratosCardapioDto: UpdatePratosCardapioDto) {
-    return `This action updates a #${id} pratosCardapio`;
+  async update(id: string, updatePratosCardapioDto: UpdatePratosCardapioDto) {
+    this.validateObjectId(id);
+
+    const prato = await this.pratoCardapioModel
+      .findByIdAndUpdate(id, updatePratosCardapioDto, {
+        new: true,
+      })
+      .exec();
+
+    if (!prato) {
+      throw new NotFoundException('Prato não encontrado');
+    }
+
+    return this.toResponse(prato);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pratosCardapio`;
+  async remove(id: string) {
+    this.validateObjectId(id);
+
+    const prato = await this.pratoCardapioModel.findByIdAndDelete(id).exec();
+
+    if (!prato) {
+      throw new NotFoundException('Prato não encontrado');
+    }
+
+    return {
+      message: 'Prato removido com sucesso',
+    };
+  }
+
+  private toResponse(prato: PratoCardapioDocument) {
+    return {
+      id: prato._id.toString(),
+      nome: prato.nome,
+      categoria: prato.categoria,
+      descricao: prato.descricao,
+      status: prato.status,
+      especialidadeEstrelada: prato.especialidadeEstrelada,
+    };
+  }
+
+  private validateObjectId(id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('ID inválido');
+    }
+  }
+
+  private escapeRegex(value: string) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 }

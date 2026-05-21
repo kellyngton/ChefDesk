@@ -1,21 +1,24 @@
 import {
   IsDateString,
   IsInt,
+  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   MaxLength,
+  Min,
 } from 'class-validator';
 
 export class CreateEventosOrcamentoDto {
-  @IsInt()
-  idCliente!: number;
+  @IsMongoId()
+  idCliente!: string;
 
   @IsDateString()
   dataEvento!: string;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(100)
   cidade!: string;
 
@@ -25,10 +28,12 @@ export class CreateEventosOrcamentoDto {
   bairro?: string;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(50)
   tipoLocal!: string;
 
   @IsInt()
+  @Min(1)
   qtdPessoas!: number;
 
   @IsOptional()
@@ -45,6 +50,7 @@ export class CreateEventosOrcamentoDto {
   restricoesAlimentares?: string;
 
   @IsNumber()
+  @Min(0)
   valorEstimadoTotal!: number;
 
   @IsString()

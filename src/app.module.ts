@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ThrottlerModule } from '@nestjs/throttler';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ThrottlerModule } from '@nestjs/throttler/dist/throttler.module';
-import { PrismaModule } from '../prisma/prisma.module';
+
 import { ClientesModule } from './clientes/clientes.module';
 import { PratosCardapioModule } from './pratos-cardapio/pratos-cardapio.module';
 import { EventosOrcamentosModule } from './eventos-orcamentos/eventos-orcamentos.module';
@@ -21,12 +23,20 @@ import { ConfiguracoesCockpitModule } from './configuracoes-cockpit/configuracoe
         },
       ],
     }),
+
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
 
-    PrismaModule,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.getOrThrow<string>('MONGO_URI'),
+      }),
+    }),
+
     ClientesModule,
     PratosCardapioModule,
     EventosOrcamentosModule,

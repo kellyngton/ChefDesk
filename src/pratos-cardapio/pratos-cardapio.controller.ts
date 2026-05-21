@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { PratosCardapioService } from './pratos-cardapio.service';
 import { CreatePratosCardapioDto } from './dto/create-pratos-cardapio.dto';
 import { UpdatePratosCardapioDto } from './dto/update-pratos-cardapio.dto';
+import { FilterPratosCardapioDto } from './dto/filter-pratos-cardapio.dto';
 
 @Controller('pratos-cardapio')
 export class PratosCardapioController {
@@ -13,22 +23,25 @@ export class PratosCardapioController {
   }
 
   @Get()
-  findAll() {
-    return this.pratosCardapioService.findAll();
+  findAll(@Query() filters: FilterPratosCardapioDto) {
+    return this.pratosCardapioService.findAll(filters);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.pratosCardapioService.findOne(+id);
+    return this.pratosCardapioService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePratosCardapioDto: UpdatePratosCardapioDto) {
-    return this.pratosCardapioService.update(+id, updatePratosCardapioDto);
+  update(
+    @Param('id') id: string,
+    @Body() updatePratosCardapioDto: UpdatePratosCardapioDto,
+  ) {
+    return this.pratosCardapioService.update(id, updatePratosCardapioDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.pratosCardapioService.remove(+id);
+    return this.pratosCardapioService.remove(id);
   }
 }

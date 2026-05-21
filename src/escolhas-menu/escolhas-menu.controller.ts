@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { EscolhasMenuService } from './escolhas-menu.service';
 import { CreateEscolhasMenuDto } from './dto/create-escolhas-menu.dto';
 import { UpdateEscolhasMenuDto } from './dto/update-escolhas-menu.dto';
@@ -23,7 +31,10 @@ export class EscolhasMenuController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEscolhasMenuDto: UpdateEscolhasMenuDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateEscolhasMenuDto: UpdateEscolhasMenuDto,
+  ) {
     return this.escolhasMenuService.update(+id, updateEscolhasMenuDto);
   }
 

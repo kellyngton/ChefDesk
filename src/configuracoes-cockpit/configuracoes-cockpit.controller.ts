@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ConfiguracoesCockpitService } from './configuracoes-cockpit.service';
 import { CreateConfiguracoesCockpitDto } from './dto/create-configuracoes-cockpit.dto';
 import { UpdateConfiguracoesCockpitDto } from './dto/update-configuracoes-cockpit.dto';
 
 @Controller('configuracoes-cockpit')
 export class ConfiguracoesCockpitController {
-  constructor(private readonly configuracoesCockpitService: ConfiguracoesCockpitService) {}
+  constructor(
+    private readonly configuracoesCockpitService: ConfiguracoesCockpitService,
+  ) {}
 
   @Post()
   create(@Body() createConfiguracoesCockpitDto: CreateConfiguracoesCockpitDto) {
-    return this.configuracoesCockpitService.create(createConfiguracoesCockpitDto);
+    return this.configuracoesCockpitService.create(
+      createConfiguracoesCockpitDto,
+    );
   }
 
   @Get()
@@ -23,8 +35,14 @@ export class ConfiguracoesCockpitController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateConfiguracoesCockpitDto: UpdateConfiguracoesCockpitDto) {
-    return this.configuracoesCockpitService.update(+id, updateConfiguracoesCockpitDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateConfiguracoesCockpitDto: UpdateConfiguracoesCockpitDto,
+  ) {
+    return this.configuracoesCockpitService.update(
+      +id,
+      updateConfiguracoesCockpitDto,
+    );
   }
 
   @Delete(':id')

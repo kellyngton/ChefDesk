@@ -1,1 +1,1 @@
-export class PratosCardapio {}
+export class pratosCardapio {}

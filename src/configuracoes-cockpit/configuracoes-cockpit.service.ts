@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { CreateConfiguracoesCockpitDto } from './dto/create-configuracoes-cockpit.dto';
 import { UpdateConfiguracoesCockpitDto } from './dto/update-configuracoes-cockpit.dto';
@@ -16,7 +17,10 @@ export class ConfiguracoesCockpitService {
     return `This action returns a #${id} configuracoesCockpit`;
   }
 
-  update(id: number, updateConfiguracoesCockpitDto: UpdateConfiguracoesCockpitDto) {
+  update(
+    id: number,
+    updateConfiguracoesCockpitDto: UpdateConfiguracoesCockpitDto,
+  ) {
     return `This action updates a #${id} configuracoesCockpit`;
   }
 

@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreatePratoCardapioDto } from './create-pratos-cardapio.dto';
+import { CreatePratosCardapioDto } from './create-pratos-cardapio.dto';
 
-export class UpdatePratoCardapioDto extends PartialType(
-  CreatePratoCardapioDto,
+export class UpdatePratosCardapioDto extends PartialType(
+  CreatePratosCardapioDto,
 ) {}

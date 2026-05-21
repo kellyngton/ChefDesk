@@ -1,15 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PersonalizacoesServicoService } from './personalizacoes-servico.service';
 import { CreatePersonalizacoesServicoDto } from './dto/create-personalizacoes-servico.dto';
 import { UpdatePersonalizacoesServicoDto } from './dto/update-personalizacoes-servico.dto';
 
 @Controller('personalizacoes-servico')
 export class PersonalizacoesServicoController {
-  constructor(private readonly personalizacoesServicoService: PersonalizacoesServicoService) {}
+  constructor(
+    private readonly personalizacoesServicoService: PersonalizacoesServicoService,
+  ) {}
 
   @Post()
-  create(@Body() createPersonalizacoesServicoDto: CreatePersonalizacoesServicoDto) {
-    return this.personalizacoesServicoService.create(createPersonalizacoesServicoDto);
+  create(
+    @Body() createPersonalizacoesServicoDto: CreatePersonalizacoesServicoDto,
+  ) {
+    return this.personalizacoesServicoService.create(
+      createPersonalizacoesServicoDto,
+    );
   }
 
   @Get()
@@ -23,8 +37,14 @@ export class PersonalizacoesServicoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePersonalizacoesServicoDto: UpdatePersonalizacoesServicoDto) {
-    return this.personalizacoesServicoService.update(+id, updatePersonalizacoesServicoDto);
+  update(
+    @Param('id') id: string,
+    @Body() updatePersonalizacoesServicoDto: UpdatePersonalizacoesServicoDto,
+  ) {
+    return this.personalizacoesServicoService.update(
+      +id,
+      updatePersonalizacoesServicoDto,
+    );
   }
 
   @Delete(':id')
